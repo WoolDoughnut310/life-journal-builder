@@ -2,6 +2,7 @@
 	"name": "life-journal-builder",
 	"version": "0.0.1",
 	"private": true,
+	"main": "build/index.js",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && mv package.json package-lock.json build/",
@@ -11,7 +12,8 @@
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"start": "node build"
+		"start": "node build",
+		"postinstall": "npm run build"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.354.0",
