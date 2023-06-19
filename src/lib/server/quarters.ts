@@ -1,6 +1,6 @@
 import { getDateRanges, createTimeRangePages } from './utils/date';
-import endOfQuarter from 'date-fns/endOfQuarter';
-import quartersToMonths from 'date-fns/quartersToMonths';
+import endOfQuarter from 'date-fns/endOfQuarter/index.js';
+import quartersToMonths from 'date-fns/quartersToMonths/index.js';
 import type { Client } from '@notionhq/client';
 
 function getQuarterRanges() {

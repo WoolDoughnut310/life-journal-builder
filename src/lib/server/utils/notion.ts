@@ -1,4 +1,4 @@
-import { CreatePageParameters } from '@notionhq/client/build/src/api-endpoints.js';
+import type { CreatePageParameters } from '@notionhq/client/build/src/api-endpoints.js';
 import { error as exception } from '@sveltejs/kit';
 import { APIErrorCode, ClientErrorCode, isNotionClientError } from '@notionhq/client';
 

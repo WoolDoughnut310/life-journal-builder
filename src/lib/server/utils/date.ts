@@ -1,6 +1,6 @@
-import getYear from 'date-fns/getYear';
-import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
+import getYear from 'date-fns/getYear/index.js';
+import addDays from 'date-fns/addDays/index.js';
+import format from 'date-fns/format/index.js';
 import { retrieveImage } from './images';
 import { createPage } from './notion';
 import logger from '../logger';

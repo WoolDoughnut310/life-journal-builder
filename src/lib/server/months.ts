@@ -1,10 +1,10 @@
 import { getDateRanges, createTimeRangePages } from './utils/date';
-import endOfMonth from 'date-fns/endOfMonth';
-import format from 'date-fns/format';
-import addMonths from 'date-fns/addMonths';
-import getWeek from 'date-fns/getWeek';
-import nextMonday from 'date-fns/nextMonday';
-import isMonday from 'date-fns/isMonday';
+import endOfMonth from 'date-fns/endOfMonth/index.js';
+import format from 'date-fns/format/index.js';
+import addMonths from 'date-fns/addMonths/index.js';
+import getWeek from 'date-fns/getWeek/index.js';
+import nextMonday from 'date-fns/nextMonday/index.js';
+import isMonday from 'date-fns/isMonday/index.js';
 import type { Client } from '@notionhq/client';
 
 function getMonthRanges() {

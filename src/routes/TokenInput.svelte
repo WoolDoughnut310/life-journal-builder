@@ -3,7 +3,7 @@
 </script>
 
 <form method="POST" class="form-control w-full max-w-xs">
-	<label class="label">
+	<label class="label" for="token-input">
 		<span class="label-text">Enter integration token</span>
 		<a
 			class="label-text-alt"
@@ -16,6 +16,7 @@
 		name="token"
 		class="input input-bordered input-primary w-full max-w-xs"
 		bind:value={text}
+		id="token-input"
 		required
 	/>
 
