@@ -5,6 +5,8 @@ import { retrieveImage } from './images';
 import { createPage } from './notion';
 import logger from '../logger';
 import type { Client } from '@notionhq/client';
+import nextMonday from 'date-fns/nextMonday/index.js';
+import isMonday from 'date-fns/isMonday/index.js';
 
 interface DateRange {
 	start: string;
@@ -52,6 +54,11 @@ export function getDateRanges(
 	const ranges: (DateRange | undefined)[] = [];
 
 	let start = new Date(`1 Jan ${year}`);
+
+	if (params.weekStartsOn && !isMonday(start)) {
+		// The start of a week MUST be a Monday
+		start = nextMonday(start);
+	}
 
 	let taking = false;
 

@@ -27,11 +27,24 @@ function getWeekSelection(year: number, i: number): [number, number] {
 		start = nextMonday(start);
 	}
 
+	let endWeek = getWeek(end, { weekStartsOn: 1 });
+
+	if (endWeek === 1) {
+		// The year can't end on the 1st week.
+		// `1` means the 1st week of the new year, and
+		// we can't slice [48:1] as the result would be empty
+		endWeek = 52;
+	}
+
 	// e.g. `getWeek(start) = 1`, so week 1 - first week of year
+	// but adding {weekStartsOn: 1} makes it week 2 - 2nd week
+	// Subtract 2 from start week for 0-based index
+
 	// `getWeek(end) = 5`, so week 5 - fifth week of year
-	// Subtract 1 from start for week index 0
-	// , but leave the end for the range [0,1,2,3,4], which is 5 weeks
-	return [getWeek(start) - 1, getWeek(end)];
+	// again, adding weekStarts on makes this now 6
+	// Subtract only 1 from end week for 0-based index, which
+	// allows for slicing a range (i.e.) [0,1,2,3,4] being 5 weeks
+	return [getWeek(start, { weekStartsOn: 1 }) - 2, endWeek - 1];
 }
 
 export default function createMonthPages(notion: Client, databaseId: string, weekIds: string[]) {

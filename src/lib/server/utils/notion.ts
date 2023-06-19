@@ -52,14 +52,8 @@ function createProperties(props: { [key: string]: any }) {
 			const key = name;
 			const output: { [key: string]: any } = {};
 
-			if (typeof value === 'boolean') {
-				output.checkbox = value;
-			} else if (value instanceof Array) {
+			if (value instanceof Array) {
 				output.relation = value.map((id) => ({ id }));
-			} else if (typeof value === 'string') {
-				output.rich_text = [{ text: { content: value } }];
-			} else if (typeof value === 'number') {
-				output.number = value;
 			} else if (isDateRange(value)) {
 				output.date = value;
 			}
