@@ -21,7 +21,7 @@ const extractIds = (pages: (PartialPageObjectResponse | undefined)[]) =>
 export default (notion: Client, databaseIds: DatabaseIDs): OutputType => [
 	() => createWeekPages(notion, databaseIds.weeks, { skip: 0, take: 18 }).then(extractIds),
 	() => createWeekPages(notion, databaseIds.weeks, { skip: 18, take: 17 }).then(extractIds),
-	() => createWeekPages(notion, databaseIds.weeks, { skip: 18, take: 17 }).then(extractIds),
+	() => createWeekPages(notion, databaseIds.weeks, { skip: 35, take: 17 }).then(extractIds),
 	async (weekIds: string[]) => {
 		const monthIds = extractIds(await createMonthPages(notion, databaseIds.months, weekIds));
 		const quarterIds = extractIds(await createQuarterPages(notion, databaseIds.quarters, monthIds));
