@@ -34,12 +34,12 @@ function getWeekSelection(year: number, i: number): [number, number] {
 	return [getWeek(start) - 1, getWeek(end)];
 }
 
-export default function createMonthPages(notion: Client, weekIds: string[]) {
+export default function createMonthPages(notion: Client, databaseId: string, weekIds: string[]) {
 	return createTimeRangePages(notion, 'Month', {
 		getDateRanges: getMonthRanges,
 		getImageName: (i: number) => getMonthName(i),
 		getTitle: (year: string, i: number) => `${year}-${i.toString().padStart(2, '0')}`,
-		databaseId: process.env.MONTH_DATABASE_ID,
+		databaseId,
 		dateRangeField: 'Dates',
 		relations: {
 			name: 'Weeks',

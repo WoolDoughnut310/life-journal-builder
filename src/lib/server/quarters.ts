@@ -11,20 +11,17 @@ function getMonthSelection(_: number, i: number): [number, number] {
 	return [quartersToMonths(i), quartersToMonths(i + 1)];
 }
 
-export default function createQuarterPages(notion: Client, monthIds: string[]) {
+export default function createQuarterPages(notion: Client, databaseId: string, monthIds: string[]) {
 	return createTimeRangePages(notion, 'Quarter', {
 		getDateRanges: getQuarterRanges,
 		getImageName: (i: number) => `q${i}`,
 		getTitle: (year: string, i: number) => `${year}-Q${i}`,
-		databaseId: process.env.QUARTER_DATABASE_ID,
+		databaseId,
 		dateRangeField: 'Date Range',
 		relations: {
 			name: 'Months',
 			ids: monthIds,
 			getSelection: getMonthSelection
-		},
-		props: {
-			Year: []
 		}
 	});
 }

@@ -2,13 +2,7 @@ import { vi } from 'vitest';
 import findDatabases from './findDatabases';
 import { Client } from '@notionhq/client';
 
-vi.mock('@notionhq/client', () => {
-	const Client = vi.fn();
-	Client.prototype.search = vi.fn();
-	return { Client };
-});
-
-describe('retrieve database IDs from a workspace', () => {
+describe('retrieves database IDs from a workspace', () => {
 	let notion: Client;
 	const names = ['Weeks', 'Months', 'Quarters', 'Years'];
 	const createDBMock = (title: string) => ({
@@ -31,7 +25,9 @@ describe('retrieve database IDs from a workspace', () => {
 
 		const returned = await findDatabases(notion);
 
-		expect(returned).toEqual(names.map((name) => `db-${name.toLowerCase()}`));
+		expect(returned).toEqual(
+			Object.fromEntries(names.map((name) => [name.toLowerCase(), `db-${name.toLowerCase()}`]))
+		);
 	});
 
 	it('throws with insufficient databases', async () => {

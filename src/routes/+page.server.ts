@@ -2,7 +2,7 @@ import { redirect, error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions = {
-	default: async ({ cookies, request, locals }) => {
+	default: async ({ cookies, request }) => {
 		const data = await request.formData();
 
 		if (!data.has('token')) {
@@ -10,7 +10,7 @@ export const actions = {
 		}
 
 		const token = data.get('token') as string;
-		cookies.set('token', token);
+		cookies.set('token', token, { path: '/' });
 		throw redirect(301, '/setup');
 	}
 } satisfies Actions;

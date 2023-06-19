@@ -1,39 +1,36 @@
-import createMonthPages from './months'
+import createMonthPages from './months';
+import { env } from '$env/dynamic/private';
 
-test('creates a page for April 2025 with the correct cover image', () => {
-    const weekIds = new Array(52).fill(0).map((_, i) => `x2025-w${i + 1}x`)
-    createMonthPages(weekIds)
+test('creates a page for April 2025 with the correct cover image', async () => {
+	const weekIds = new Array(52).fill(0).map((_, i) => `x2025-w${i + 1}x`);
+	const parentId = 'month-db';
 
-    const emptyRichText = { rich_text: [{ text: { content: '' } }] }
-    const parentId = process.env.MONTH_DATABASE_ID
+	await createMonthPages(notion, parentId, weekIds);
 
-    expect(notion.pages.create).toHaveBeenCalledWith({
-        cover: {
-            type: 'external',
-            external: { url: 'image-April.png' },
-        },
-        parent: {
-            type: 'database_id',
-            database_id: parentId,
-        },
-        properties: {
-            Name: { title: [{ text: { content: '2025-04' } }] },
-            Dates: {
-                date: {
-                    start: '2025-04-01',
-                    end: '2025-04-30',
-                },
-            },
-            Complete: { checkbox: false },
-            Weeks: {
-                relation: [15, 16, 17, 18].map((id) => ({
-                    id: `x2025-w${id}x`,
-                })),
-            },
-            '→ Month Goals': emptyRichText,
-            '→ Month Wins': emptyRichText,
-            '→ Month Losses': emptyRichText,
-            '→ Month Thoughts': emptyRichText,
-        },
-    })
-})
+	expect(notion.pages.create).toHaveBeenCalledWith({
+		cover: {
+			type: 'external',
+			external: {
+				url: `https://link.storjshare.io/raw/${env.STORJ_ACCESS_GRANT}/${env.STORJ_BUCKET_NAME}/april.png`
+			}
+		},
+		parent: {
+			type: 'database_id',
+			database_id: parentId
+		},
+		properties: {
+			Month: { title: [{ text: { content: '2025-04' } }] },
+			Dates: {
+				date: {
+					start: '2025-04-01',
+					end: '2025-04-30'
+				}
+			},
+			Weeks: {
+				relation: [15, 16, 17, 18].map((id) => ({
+					id: `x2025-w${id}x`
+				}))
+			}
+		}
+	});
+});

@@ -8,6 +8,7 @@ export default defineConfig({
 		globals: true,
 		deps: {
 			inline: ['@aws-sdk/util-user-agent-node', '@aws-sdk/signature-v4-multi-region']
-		}
+		},
+		setupFiles: 'setup-vitest.ts'
 	}
 });

@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import type { ActionResult } from '@sveltejs/kit';
-	import type { PageData } from './$types';
-
-	export let data: PageData;
+	import HomeButton from '../HomeButton.svelte';
 
 	// The progress of the Notion page creation process
 	let progress = 0;
@@ -11,7 +9,7 @@
 	// stage 0 is initial; stage 1 is page creation; stage 2 is finished
 	let stage = 0;
 
-	const beginStage = async (chunk: number, data: { [key: string]: string } = {}) => {
+	const createChunk = async (chunk: number, data: { [key: string]: string } = {}) => {
 		const formData = new FormData();
 		formData.set('chunk', chunk.toString());
 
@@ -30,7 +28,7 @@
 			applyAction(result);
 		} else if (result.type === 'success') {
 			progress += 1;
-			return result.data;
+			return result.data as string[];
 		}
 	};
 
@@ -39,11 +37,11 @@
 
 		const weekIds = [];
 
-		weekIds.push(await beginStage(0));
-		weekIds.push(await beginStage(1));
-		weekIds.push(await beginStage(2));
+		weekIds.push(...((await createChunk(0)) ?? []));
+		weekIds.push(...((await createChunk(1)) ?? []));
+		weekIds.push(...((await createChunk(2)) ?? []));
 
-		await beginStage(3, { weekIds: JSON.stringify(weekIds) });
+		await createChunk(3, { weekIds: JSON.stringify(weekIds) });
 
 		stage = 2;
 	};
@@ -55,4 +53,8 @@
 
 <div class="radial-progress" style:--value={progress * 25}>{progress}/4</div>
 
-<button class="btn btn-wide mt-4" on:click={start} disabled={stage > 0}>Begin</button>
+{#if stage !== 2}
+	<button class="btn btn-wide mt-4" on:click={start} disabled={stage > 0}>Begin</button>
+{:else}
+	<HomeButton />
+{/if}

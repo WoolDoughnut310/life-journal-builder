@@ -1,4 +1,6 @@
 import { CreatePageParameters } from '@notionhq/client/build/src/api-endpoints.js';
+import { error as exception } from '@sveltejs/kit';
+import { APIErrorCode, ClientErrorCode, isNotionClientError } from '@notionhq/client';
 
 interface DateRange {
 	start: string;
@@ -44,25 +46,6 @@ function isDateRange(object: any): object is DateRange {
 	return 'start' in object && 'end' in object;
 }
 
-function addDefaultProperties(type: string, props: { [key: string]: any }) {
-	const KEYS = ['Goals', 'Wins', 'Losses', 'Thoughts'];
-	const keysEntries = Object.fromEntries(
-		KEYS.map((key): [string, string] => {
-			let name = `${type} ${key}`;
-
-			// The `Year Goals` property doesn't depend
-			// on properties from other pages
-			if (!(type === 'Year' && key === 'Goals')) {
-				name = `→ ${name}`;
-			}
-
-			return [name, ''];
-		})
-	);
-
-	return Object.assign(props, { Complete: false }, keysEntries);
-}
-
 function createProperties(props: { [key: string]: any }) {
 	return Object.fromEntries(
 		Object.entries(props).map(([name, value]) => {
@@ -93,13 +76,26 @@ export function createPage(
 	parentId: string,
 	props: { [key: string]: any }
 ): CreatePageParameters {
-	const addDefaultProperties = (_: any, a: any) => a;
 	return {
 		cover: createCoverImage(coverImage),
 		parent: createParentRelation(parentId),
 		properties: {
 			[type]: createTitle(title),
-			...createProperties(addDefaultProperties(type, props))
+			...createProperties(props)
 		}
 	} as any;
+}
+
+export function handleNotionError(error: unknown) {
+	if (isNotionClientError(error)) {
+		switch (error.code) {
+			case ClientErrorCode.RequestTimeout:
+				throw exception(408, { message: error.message });
+			case APIErrorCode.ObjectNotFound:
+			case APIErrorCode.Unauthorized:
+				throw exception(error.status, { message: error.message });
+			default:
+				break;
+		}
+	}
 }

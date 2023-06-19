@@ -6,16 +6,15 @@ function getWeekRanges(pagination?: Pagination) {
 	return getDateRanges(endOfWeek, 52, { weekStartsOn: 1 }, pagination);
 }
 
-export default function createWeekPages(notion: Client, pagination?: Pagination) {
+export default function createWeekPages(
+	notion: Client,
+	databaseId: string,
+	pagination?: Pagination
+) {
 	return createTimeRangePages(notion, 'Week', {
 		getDateRanges: () => getWeekRanges(pagination),
 		getTitle: (year: string, i: number) => `${year}-W${i.toString().padStart(2, '0')}`,
-		databaseId: process.env.WEEK_DATABASE_ID,
-		dateRangeField: 'Dates',
-		props: {
-			Days: [],
-			Months: [],
-			'→ Week Rating (1-10)': 0
-		}
+		databaseId,
+		dateRangeField: 'Dates'
 	});
 }

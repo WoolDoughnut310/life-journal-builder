@@ -28,7 +28,6 @@ interface Options {
 		// 0-indexed
 		getSelection: (year: number, i: number) => [number, number];
 	};
-	props?: { [key: string]: any };
 }
 
 export function formatDate(date: Date) {
@@ -94,10 +93,10 @@ export async function createTimeRangePages(notion: Client, type: string, options
 
 	return Promise.all(
 		dateRanges.map(async (dateRange, i) => {
-			if (!dateRange) return Promise.resolve(0);
+			if (!dateRange) return Promise.resolve(undefined);
 			logger.info(`creating ${type} ${i} in range ${dateRange.start} -> ${dateRange.end}`);
 
-			const coverImage = await retrieveImage(options.getImageName?.(i + 1));
+			const coverImage = retrieveImage(options.getImageName?.(i + 1));
 			let relationsOutput: { [key: string]: string[] } = {};
 
 			if (options.relations) {
@@ -111,8 +110,7 @@ export async function createTimeRangePages(notion: Client, type: string, options
 			const response = await notion.pages.create(
 				createPage(type, options.getTitle(year.toString(), i + 1), coverImage, options.databaseId, {
 					[options.dateRangeField]: dateRange,
-					...(options.relations ? relationsOutput : {}),
-					...(options.props || {})
+					...(options.relations ? relationsOutput : {})
 				})
 			);
 

@@ -5,7 +5,11 @@
 <form method="POST" class="form-control w-full max-w-xs">
 	<label class="label">
 		<span class="label-text">Enter integration token</span>
-		<span class="label-text-alt"><button>how?</button></span>
+		<a
+			class="label-text-alt"
+			href="https://www.notion.so/help/create-integrations-with-the-notion-api#create-an-internal-integration"
+			>But, from where?</a
+		>
 	</label>
 	<input
 		type="text"
