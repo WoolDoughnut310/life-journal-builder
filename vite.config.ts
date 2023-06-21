@@ -10,6 +10,11 @@ export default ({ mode }) => {
 			include: ['src/**/*.{test,spec}.{js,ts}'],
 			globals: true,
 			setupFiles: 'setup-vitest.ts'
+		},
+		build: {
+			rollupOptions: {
+				external: ['@resvg/resvg-js']
+			}
 		}
 	});
 };
