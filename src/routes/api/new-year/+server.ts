@@ -97,5 +97,5 @@ export const POST = (async () => {
 		})
 	);
 
-	return new Response();
+	return new Response(contents);
 }) satisfies RequestHandler;
