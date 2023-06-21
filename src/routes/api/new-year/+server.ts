@@ -5,16 +5,16 @@ import getYear from 'date-fns/getYear/index.js';
 import {
 	S3_ENDPOINT,
 	STORJ_BUCKET_NAME,
-	MY_AWS_ACCESS_KEY_ID,
-	MY_AWS_SECRET_ACCESS_KEY
+	AWS_ACCESS_KEY_ID,
+	AWS_SECRET_ACCESS_KEY
 } from '$env/static/private';
 
 const client = new S3Client({
 	endpoint: S3_ENDPOINT,
 	region: 'eu-west-1',
 	credentials: {
-		accessKeyId: MY_AWS_ACCESS_KEY_ID,
-		secretAccessKey: MY_AWS_SECRET_ACCESS_KEY
+		accessKeyId: AWS_ACCESS_KEY_ID,
+		secretAccessKey: AWS_SECRET_ACCESS_KEY
 	}
 });
 
@@ -97,5 +97,5 @@ export const POST = (async () => {
 		})
 	);
 
-	return new Response(contents);
+	return new Response('Uploaded!');
 }) satisfies RequestHandler;
