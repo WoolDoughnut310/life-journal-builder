@@ -13,7 +13,7 @@ export default ({ mode }) => {
 		},
 		build: {
 			rollupOptions: {
-				external: ['@resvg/resvg-js']
+				external: ['@resvg/resvg-js', '@aws-sdk/client-s3', 'date-fns/getYear/index.js']
 			}
 		}
 	});
