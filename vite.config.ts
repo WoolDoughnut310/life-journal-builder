@@ -1,14 +1,15 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
+import { loadEnv } from 'vite';
 
-export default defineConfig({
-	plugins: [sveltekit()],
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}'],
-		globals: true,
-		deps: {
-			inline: ['@aws-sdk/util-user-agent-node', '@aws-sdk/signature-v4-multi-region']
-		},
-		setupFiles: 'setup-vitest.ts'
-	}
-});
+export default ({ mode }) => {
+	process.env = { ...process.env, ...loadEnv(mode, process.cwd(), '') };
+	return defineConfig({
+		plugins: [sveltekit()],
+		test: {
+			include: ['src/**/*.{test,spec}.{js,ts}'],
+			globals: true,
+			setupFiles: 'setup-vitest.ts'
+		}
+	});
+};
