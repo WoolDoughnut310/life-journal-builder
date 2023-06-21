@@ -1,8 +1,0 @@
-{
-	"crons": [
-		{
-			"path": "/api/new-year",
-			"schedule": "0 0 29 12 *"
-		}
-	]
-}
