@@ -16,15 +16,15 @@
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.354.0",
 		"@notionhq/client": "^2.2.2",
-		"@sveltejs/adapter-vercel": "^3.0.1",
+		"@resvg/resvg-js": "^2.4.1",
 		"daisyui": "^3.1.1",
 		"date-fns": "^2.30.0",
-		"dotenv": "^16.0.1",
-		"svg2img": "^1.0.0-beta.2"
+		"dotenv": "^16.0.1"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-node": "^1.2.4",
+		"@sveltejs/adapter-vercel": "^3.0.1",
 		"@sveltejs/kit": "^1.5.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",

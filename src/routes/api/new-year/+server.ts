@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import svg2img from 'svg2img';
+import { Resvg } from "@resvg/resvg-js";
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import getYear from 'date-fns/getYear/index.js';
 import {
@@ -72,22 +72,13 @@ export const POST = (async () => {
 		.replace(`style="stroke-width:0.264583">20`, `style="stroke-width:0.264583">${firstPart}`)
 		.replace(`id="tspan2333">23`, `id="tspan2333">${lastPart}`);
 
-	// convert SVG to local PNG file
-	const buffer = await new Promise<Blob>((resolve, reject) => {
-		svg2img(
-			contents,
-			{
-				resvg: {
-					background: 'rgb(255, 255, 255)'
-				}
-			},
-			async (err, buffer) => {
-				if (err) return reject(err);
-				resolve(buffer);
-			}
-		);
-	});
-
+	// convert SVG to PNG buffer
+    const resvg = new Resvg(contents, {
+        background: 'rgb(255, 255, 255)'
+    });
+    const pngData = resvg.render();
+    const buffer = pngData.asPng();
+	
 	// upload to Storj (AWS)
 	await client.send(
 		new PutObjectCommand({
