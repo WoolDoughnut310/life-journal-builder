@@ -3,7 +3,6 @@ import addDays from 'date-fns/addDays/index.js';
 import format from 'date-fns/format/index.js';
 import { retrieveImage } from './images';
 import { createPage } from './notion';
-import logger from '../logger';
 import type { Client } from '@notionhq/client';
 import nextMonday from 'date-fns/nextMonday/index.js';
 import isMonday from 'date-fns/isMonday/index.js';
@@ -101,7 +100,7 @@ export async function createTimeRangePages(notion: Client, type: string, options
 	return Promise.all(
 		dateRanges.map(async (dateRange, i) => {
 			if (!dateRange) return Promise.resolve(undefined);
-			logger.info(`creating ${type} ${i} in range ${dateRange.start} -> ${dateRange.end}`);
+			console.log(`creating ${type} ${i} in range ${dateRange.start} -> ${dateRange.end}`);
 
 			const coverImage = retrieveImage(options.getImageName?.(i + 1));
 			let relationsOutput: { [key: string]: string[] } = {};
