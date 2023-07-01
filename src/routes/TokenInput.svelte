@@ -19,6 +19,9 @@
 		id="token-input"
 		required
 	/>
+	<label class="label" for="token-input">
+		<a class="label-text-alt" href="https://youtu.be/If71n1qQbHU">Does it really work?</a>
+	</label>
 
 	{#if text.length > 0}
 		<button class="btn btn-secondary mt-4">Connect workspace</button>
